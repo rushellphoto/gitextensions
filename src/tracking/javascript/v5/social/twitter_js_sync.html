@@ -1,0 +1,78 @@
+<!DOCTYPE>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>Social Demo</title>
+  <link href="main.css" rel="stylesheet" type="text/css"></link>
+  <link rel="stylesheet" type="text/css"
+        href="http://fonts.googleapis.com/css?family=Cantarell|Inconsolata">
+
+  <!-- Google Analytics Tracking Code -->
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12345-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/u/ga_beta.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+
+  <!-- Load Twitter JS-API synchronously -->
+  <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
+</head>
+<body>
+  <div class="header">
+    <h1>Google Analytics Social Tracking Demo</h1>
+    <h3>Twitter via JS-SDK sync</h3>
+  </div>
+  <ul id="nav">
+    <li>Other Demos:</li>
+    <li><a href="facebook_js_async.html">Facebook Async</a></li>
+    <li class="item"><a href="facebook_js_sync.html">Facebook Sync</a></li>
+    <li class="item"><a href="twitter_js_async.html">Twitter Async</a></li>
+    <li class="item"><a href="twitter_js_sync.html">Twitter Sync</a></li>
+  </ul>
+
+  <p>This page demonstrates how to track Twitter tweet buttons which are loaded synchronously on the page.<br>
+     See <a href="http://dev.twitter.com/pages/tweet_button">Twitter developer docs</a>
+     on loading the tweet button.<br>
+     See the <a href="ga_social_tracking.js">JavaScript Source Code</a> to learn how to this is being tracked.</p>
+  <hr>
+
+  <p>Tweet - Using anchor tag w/query params</p>
+  <div>
+    http://dev.twitter.com
+    <a href="http://twitter.com/share?url=http%3A%2F%2Fdev.twitter.com&amp;via=your_screen_name"
+       class="twitter-share-button">Tweet</a>
+  </div>
+
+  <hr>
+  <p>Tweet - Using anchor tag w/data attributes</p>
+  <div>
+    http://dev.twitter.com
+    <a href="http://twitter.com/share"
+       data-url="http://dev.twitter.com"
+       class="twitter-share-button">Tweet</a>
+  </div>
+
+  <hr>
+  <p>Tweet - Using an iFrame w/query params - The url param is not captured</p>
+  http://dev.twitter.com
+  <iframe allowtransparency="true" frameborder="0" scrolling="no"
+          src="http://platform.twitter.com/widgets/tweet_button.html?url=http%3A%2F%2Fdev.twitter.com&amp;via=your_screen_name"
+          style="width:130px; height:20px;"></iframe>
+
+
+<!-- Google Analytics Social Button Tracking -->
+<script src="ga_social_tracking.js"></script>
+<script>
+  _ga.trackSocial();
+</script>
+
+
+</body>
+</html>
