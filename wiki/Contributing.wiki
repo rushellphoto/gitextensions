@@ -1,4 +1,4 @@
-#summary How to contribute code to the project
+How to contribute code to the project
 
 = Introduction =
 
@@ -6,6 +6,8 @@ A work in progress describing how to contribute code
 
 
 = Details =
+
+We use Reitveld for code reviews prior to committing. See http://code.google.com/p/rietveld/wiki/CodeReviewHelp for details.
 
 Checkout using subversion (_need details_).
 
