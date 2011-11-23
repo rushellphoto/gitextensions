@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- This account id is a placeholder ONLY.
+	     You must supply your own Google Analytics account Id. -->
+	<key>accountId</key>
+	<string>UA-00000000-1</string>
+
+	<key>dispatchPeriod</key>
+	<integer>60</integer>
+
+	<key>debugEnabled</key>
+	<false/>
+
+	<key>anonymizeIpEnabled</key>
+	<true/>
+
+	<key>analyticsDisabled</key>
+	<false/>
+
+	<key>sampleRate</key>
+	<integer>100</integer>
+</dict>
+</plist>
