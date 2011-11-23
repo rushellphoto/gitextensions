@@ -1,7 +1,6 @@
 The EasyTracking library makes it simple to track your iOS application with the
-Google Analytics iOS SDK. See EasyTracker.h for how to use the library.
+Google Analytics iOS SDK. See EasyTracker.h in the Library subdirectory for
+instructions on how to use the library. Sample iOS applications using
+EasyTracker are included in the Examples subdirectory.
 
-An example Xcode project for an iPhone application using EasyTracker is included
-in the EasyTrackerExample directory.
-
-See COPYING for license.
+This library is distributed in source form. See COPYING for license information.
