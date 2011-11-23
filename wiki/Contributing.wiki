@@ -7,15 +7,23 @@ A work in progress describing how to contribute code
 
 = Details =
 
-We use Reitveld for code reviews prior to committing. See http://code.google.com/p/rietveld/wiki/CodeReviewHelp for details.
+We use Rietveld for code reviews prior to committing. See http://code.google.com/p/rietveld/wiki/CodeReviewHelp for details.
 
 Checkout using subversion (_need details_).
 
-To submit, upload it to codereview.appspot.com using the [http://codereview.appspot.com/static/upload.py upload.py] script and add _XXX_ to the list of the reviewers, for example
+To submit, upload it to codereview.appspot.com using the [http://codereview.appspot.com/static/upload.py upload.py] script and add `nrhodes@google.com`, `fmela@google.com`, or `jjc@google.com` to the list of the reviewers, for example
 {{{
-upload.py -r XXX@google.com --cc=analytics-api-samples-discuss@googlegroups.com --send_mail  
+upload.py -r nrhodes@google.com --cc=analytics-api-samples-discuss@googlegroups.com --send_mail  
 }}}
-Make sure you're subscribed to codereview-discuss or else notification to group may bounce. If you're uploading a patch using the web based form at codereview.appspot.com, don't forget to use the Publish+Mail link on the issue page. To update your patch, use `-i` option with your issue number:
+Make sure you're *subscribed* to [https://groups.google.com/forum/#forum/analytics-api-samples-discuss  analytics-api-samples-discuss] or else notification to group may bounce. If you're uploading a patch using the web based form at codereview.appspot.com, don't forget to use the Publish+Mail link on the issue page. To update your patch, use `-i` option with your issue number:
 {{{
 upload.py -i XXXXXX --send_mail
 }}}
+
+
+=Legal stuff=
+We're living in interesting times. That's why individual contributors need to fill out the [http://code.google.com/legal/individual-cla-v1.0.html Individual Contributor License Agreement]. (Please use the electronic form at the bottom of the page.) It does not transfer copyright, it is actually a slightly modified version of the CLA for the Apache Software Foundation.
+
+For Corporate contributors, there's the [http://code.google.com/legal/corporate-cla-v1.0.html Software Grant and Corporate Contributor License Agreement].
+
+Google employees do *not* have to fill out one of these!
