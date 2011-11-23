@@ -1,0 +1,19 @@
+#summary How to contribute code to the project
+
+= Introduction =
+
+A work in progress describing how to contribute code
+
+
+= Details =
+
+Checkout using subversion (_need details_).
+
+To submit, upload it to codereview.appspot.com using the [http://codereview.appspot.com/static/upload.py upload.py] script and add _XXX_ to the list of the reviewers, for example
+{{{
+upload.py -r XXX@google.com --cc=analytics-api-samples-discuss@googlegroups.com --send_mail  
+}}}
+Make sure you're subscribed to codereview-discuss or else notification to group may bounce. If you're uploading a patch using the web based form at codereview.appspot.com, don't forget to use the Publish+Mail link on the issue page. To update your patch, use `-i` option with your issue number:
+{{{
+upload.py -i XXXXXX --send_mail
+}}}
