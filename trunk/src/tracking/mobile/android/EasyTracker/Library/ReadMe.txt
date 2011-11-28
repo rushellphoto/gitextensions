@@ -40,3 +40,13 @@ ga_dispatchPeriod (Integer) - Set to the time period in seconds to wait between
 ga_auto_activity_tracking (Bool) - Set to true to track time spent in each
                                    Activity.  Set to false to track application-
                                    level information only.  Default is false.
+
+Remember to add the file libGoogleAnalytics.jar (available from
+https://code.google.com/mobile/analytics/download.html) to your application's
+project.
+
+Also remember to add the following privileges to the
+AndroidManifest.xml for your project:
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
