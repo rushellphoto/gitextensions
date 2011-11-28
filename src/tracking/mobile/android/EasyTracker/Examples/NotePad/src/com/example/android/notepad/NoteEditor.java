@@ -18,7 +18,8 @@ package com.example.android.notepad;
 
 import com.example.android.notepad.NotePad.Notes;
 
-import android.app.Activity;
+import com.google.android.apps.analytics.easytracking.TrackedActivity;
+
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
@@ -40,7 +41,7 @@ import android.widget.EditText;
  * either to simply view a note {@link Intent#ACTION_VIEW}, view and edit a note
  * {@link Intent#ACTION_EDIT}, or create a new note {@link Intent#ACTION_INSERT}.  
  */
-public class NoteEditor extends Activity {
+public class NoteEditor extends TrackedActivity {
     private static final String TAG = "Notes";
 
     /**

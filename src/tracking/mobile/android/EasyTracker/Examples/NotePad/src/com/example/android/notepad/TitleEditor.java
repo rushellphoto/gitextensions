@@ -18,7 +18,8 @@ package com.example.android.notepad;
 
 import com.example.android.notepad.NotePad.Notes;
 
-import android.app.Activity;
+import com.google.android.apps.analytics.easytracking.TrackedActivity;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
@@ -31,7 +32,7 @@ import android.widget.EditText;
  * An activity that will edit the title of a note. Displays a floating
  * window with a text field.
  */
-public class TitleEditor extends Activity implements View.OnClickListener {
+public class TitleEditor extends TrackedActivity implements View.OnClickListener {
 
     /**
      * This is a special intent action that means "edit the title of a note".
