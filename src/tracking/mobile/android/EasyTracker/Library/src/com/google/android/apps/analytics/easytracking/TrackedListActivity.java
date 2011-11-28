@@ -38,7 +38,7 @@ import android.os.Bundle;
  */
 public class TrackedListActivity extends ListActivity {
   @Override
-  public void onCreate(Bundle savedInstanceState) {
+  protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       
       // Only one call to setContext is needed, but additional calls don't hurt
@@ -48,7 +48,7 @@ public class TrackedListActivity extends ListActivity {
   }
 
   @Override
-  public void onStart() {
+  protected void onStart() {
     super.onStart();
     
     // This call will ensure that the Activity in question is tracked properly,
@@ -74,7 +74,7 @@ public class TrackedListActivity extends ListActivity {
   }
 
   @Override
-  public void onStop() {
+  protected void onStop() {
     super.onStop();
     
     // This call is needed to ensure time spent in an Activity and an
