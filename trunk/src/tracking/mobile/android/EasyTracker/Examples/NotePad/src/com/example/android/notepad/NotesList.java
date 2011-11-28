@@ -18,7 +18,8 @@ package com.example.android.notepad;
 
 import com.example.android.notepad.NotePad.Notes;
 
-import android.app.ListActivity;
+import com.google.android.apps.analytics.easytracking.TrackedListActivity;
+
 import android.content.ComponentName;
 import android.content.ContentUris;
 import android.content.Intent;
@@ -40,7 +41,7 @@ import android.widget.SimpleCursorAdapter;
  * provided in the intent if there is one, otherwise defaults to displaying the
  * contents of the {@link NotePadProvider}
  */
-public class NotesList extends ListActivity {
+public class NotesList extends TrackedListActivity {
     private static final String TAG = "NotesList";
 
     // Menu item ids
