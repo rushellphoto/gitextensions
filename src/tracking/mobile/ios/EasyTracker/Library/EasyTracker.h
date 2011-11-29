@@ -30,38 +30,35 @@
 //
 // Additionally, you may define the following optional parameters:
 //
-// dispatchPeriod
+// dispatchPeriod (defaults to 60)
 //   The interval, in seconds, for schedule dispatching hits to Google
 //   Analytics. Every |dispatchPeriod| seconds, the tracker will check to see
 //   if there are buffered events needing submission. It is recommended to set
 //   this value between 10 and 60, depending on your application. If this value
 //   is zero or negative, events will be scheduled for dispatch immediately upon
 //   receipt.
-//   Defaults to 60.
 //
-// debugEnabled
+// debugEnabled (defaults to NO)
 //   If YES, debugging information will be printed to the application log with
 //   NSLog(). This information may be useful when debugging tracker problems.
-//   Defaults to NO.
 //
-// analyticsDisabled
-//   If YES, no tracking information will be submitted to Google Analytics.
-//   Defaults to NO.
+// analyticsDisabled (defaults to NO)
+//   If YES, calls to EasyTracker will be no-ops, and no tracking information
+//   will be submitted to Google Analytics.  Defaults to NO.
 //
-// anonymizeIpEnabled
+// anonymizeIpEnabled (defaults to YES)
 //   If YES, tracking information will be "anonymized" by setting the last octet
 //   of the IP address to zero prior to storage or submission.
-//   Defaults to YES.
 //
-// sampleRate
+// sampleRate (defaults to 100)
 //   An integer value between 0 and 100 used as a percentage to determine
 //   whether an application instance will be sampled by Google Analytics. For
 //   example, a value of 90 will result in there being a 90% chance that the
 //   visitor will be sampled (and a 10% chance that they will not).
-//   Defaults to 100.
 //
-// When your application is launched, call "launch" with the application's
-// launch options to start tracking your application.
+// On application launch, call "launchWithOptions:withParameters:andError" with
+// the application's launch options and tracker options to start tracking your
+// application.
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -171,7 +168,16 @@ extern NSString *const kGANCustomVariable5;
 */
 
 // Use TrackedUIViewController to automatically emit pageviews when the view
-// associated with the controller appears.
+// associated with the controller appears. The EasyTracker will emit a pageview
+// using the name of the view controller class as the URL. If you include a
+// mapping from the view controller class to a desired pageview in your tracker
+// parameters, the tracker will use that as the pageview URL instead. For
+// example, your EasyTracker.plist file could include an entry like this:
+//
+//     <key>MapViewController</key>
+//     <string>Map</string>
+//
+// This will generage pageviews for "Map", rather than for "MapViewController".
 @interface TrackedUIViewController : UIViewController
 
 // If you override this method, you must call [super viewDidAppear:animated] at

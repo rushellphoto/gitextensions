@@ -55,6 +55,8 @@ enum EasyTrackerState {
 
 + (EasyTracker *)sharedTracker;
 
+- (NSString *)getPageviewName:(NSString *)className;
+
 - (NSString *)getStringParameter:(NSString *)key
                     defaultValue:(NSString *)defaultValue
                      description:(NSString *)description;
@@ -73,6 +75,7 @@ enum EasyTrackerState {
 - (NSString *)appStateString:(UIApplicationState)state;
 
 - (BOOL)parseParametersAndStartTracker:(NSError **)error;
+- (void)dispatchViewDidAppear:(NSString *)controllerClassName;
 - (void)applicationWillTerminate:(NSNotification *)notification;
 - (void)applicationStateChanged:(NSNotification *)notification;
 
@@ -278,7 +281,25 @@ static EasyTracker *sSharedTracker = nil;
   return YES;
 }
 
+- (void)dispatchViewDidAppear:(NSString *)controllerClassName {
+  if (self.state == EasyTrackerStateNotTracking) {
+    return;
+  }
+  NSString *pageviewName = [self getPageviewName:controllerClassName];
+  [[GANTracker sharedTracker] trackPageview:pageviewName withError:nil];
+  if ([GANTracker sharedTracker].debug) {
+    NSLog(@"Dispatched %@ pageview for tracked view controller %@",
+          pageviewName, controllerClassName);
+  }
+}
+
 #pragma mark EasyTracker Utility methods
+
+- (NSString *)getPageviewName:(NSString *)className {
+  return [self getStringParameter:className
+                     defaultValue:className
+                      description:@"display name for view controller"];
+}
 
 - (NSString *)getStringParameter:(NSString *)key
                     defaultValue:(NSString *)defaultValue
@@ -467,13 +488,9 @@ static EasyTracker *sSharedTracker = nil;
 - (void)viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
 
-  // Determinate the class name of this view using reflection.
+  // Determine the class name of this view controller using reflection.
   NSString *className = NSStringFromClass([self class]);
-  // TODO(fmela): translate class name to display name.
-  [[GANTracker sharedTracker] trackPageview:className withError:nil];
-  if ([GANTracker sharedTracker].debug) {
-    NSLog(@"Dispatched hit for tracked view controller %@", className);
-  }
+  [[EasyTracker sharedTracker] dispatchViewDidAppear:className];
 }
 
 @end  // TrackedUIViewController
