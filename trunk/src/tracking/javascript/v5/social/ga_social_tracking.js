@@ -15,7 +15,7 @@ var _ga = _ga || {};
 
 
 /**
- * Ensure global _gaq Google Anlaytics queue has be initialized.
+ * Ensure global _gaq Google Analytics queue has be initialized.
  * @type {Array}
  */
 var _gaq = _gaq || [];
