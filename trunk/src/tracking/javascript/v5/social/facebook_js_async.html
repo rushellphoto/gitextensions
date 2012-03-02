@@ -15,13 +15,44 @@
     _gaq.push(['_trackPageview']);
 
     (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/u/ga_beta.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
   </script>
+
+  <!-- Google Analytics Social Button Tracking -->
+  <script src="ga_social_tracking.js"></script>
+
 </head>
 <body>
+
+  <div id="fb-root"></div>
+
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '123456', // ENTER your FB App ID
+        //channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel File
+        status     : true, // check login status
+        cookie     : true, // enable cookies to allow the server to access the session
+        xfbml      : true  // parse XFBML
+      });
+
+      _ga.trackFacebook(); //Google Analytics tracking
+
+    };
+
+    // Load the Facebook SDK Asynchronously
+    (function(d){
+      var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement('script'); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js";
+      ref.parentNode.insertBefore(js, ref);
+    }(document));
+  </script>
+
   <div class="header">
     <h1>Google Analytics Social Tracking Demo</h1>
     <h3>Facebook via JS-SDK async</h3>
@@ -57,27 +88,5 @@
         <fb:like href="http://code.google.com/apis/analytics" send="true" layout="button_count"></fb:like></li>
   </ul>
 
-  <!-- Google Analytics Social Button Tracking -->
-  <script src="ga_social_tracking.js"></script>
-
-  <!-- Facebook async loading of JSAPI -->
-  <div id="fb-root"></div>
-  <script>
-    // Facebook async loading.
-    (function() {
-      var e = document.createElement('script'); e.async = true;
-      e.src = document.location.protocol +
-        '//connect.facebook.net/en_US/all.js';
-      document.getElementById('fb-root').appendChild(e);
-    }());
-
-    window.fbAsyncInit = function() {
-      FB.init({appId: '164838206912600', status: true, cookie: true,
-               xfbml: true});
-
-      _ga.trackFacebook();
-    };
-
-  </script>
 </body>
 </html>
