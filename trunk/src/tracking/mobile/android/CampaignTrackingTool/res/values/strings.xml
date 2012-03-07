@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Android Market Campaign Tracking Tool</string>
+    <string name="app_name">Google Play Campaign Tracking Tool</string>
     <string name="marketUrlHint">Enter query string</string>
     <string name="submitButtonTitle">Send</string>
-    <string name="broadcastSentMsg">Market install_referral intent was
+    <string name="broadcastSentMsg">INSTALL_REFERRER intent was
         broadcast. See Analytics LogCat output for more details.</string>
     <string name="errorNoInput">Input error: No query string provided. Please
          provide a valid query string.</string>
@@ -16,7 +16,7 @@
          no component was specified. Query string must specify component
          via an ID parameter.</string>
     <string name="autoTaggingBoxLabel">Test AdWords auto-tagging</string>
-    <string name="queryStringTitleText">https://market.android.com/details?</string>
+    <string name="queryStringTitleText">https://play.google.com/store/apps/details?</string>
     <string name="autoTaggingEnabled">Auto-tagging enabled, test gclid
         value added to referrer."</string>
     <string name="errorNotEncoded"><b>[Warning]</b> referrer parameter does not 
