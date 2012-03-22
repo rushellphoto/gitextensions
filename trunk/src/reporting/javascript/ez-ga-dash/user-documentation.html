@@ -1,0 +1,418 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Google Analytics Easy Dashboard Javascript Library</title>
+
+    <style type="text/css">
+        tr, td {
+            border: 2px black solid;
+            padding: 10px;
+        }
+
+        .example {
+            border: 2px black solid;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Google Analytics Easy Dashboard Javascript Library User Documentation</h1>
+
+<h2>Table of Contents</h2>
+
+<ol>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#begin">Before You Begin</a></li>
+    <li><a href="#loadlibs">Loading Libraries</a></li>
+    <li><a href="#config">Setting Your API Key and Client ID </a></li>
+    <li><a href="#chart">Creating a Chart</a></li>
+    <li><a href="#reference">Chart Configuration Reference</a></li>
+</ol>
+
+<a name="overview"></a><h2>Overview</h2>
+<p> This library is designed to create an easier way to build a custom Google Analytics Dashboard
+by visualizing data from Google Analytics API with the Google Chart Tools
+</p>
+
+<a name="begin"></a><h2>Before You Begin</h2>
+
+<p>Before you begin, you must retrieve three pieces of information from your Google API account:
+<ul>
+    <li>Profile ID</li>
+    <li>API Key</li>
+    <li>Client ID</li>
+</ul>
+
+<p>Follow these steps in gathering the required information.</p>
+
+<h3>1) Obtaining Your Profile ID</h3>
+
+<p>Log into Google Analytics and select the profile you want to use. After logging in,
+ there will be a profile ID at the end of the URL in the address bar after the 'p'.
+    This is your profile ID. Example: p'XXXX'. </p>
+
+<img src="images/pID.gif" >
+
+<h3>2) Turn on Analytics API Service</h3>
+
+<p>In your <a href="https://code.google.com/apis/console" target="_blank">API Console</a> navigate to
+    the left panel to 'Services -> Analytics API' and switch service to 'ON'.</p>
+
+<img src="images/services.gif" >
+
+<h3>3) Obtain Your API Key and Client ID</h3>
+
+<p>Navigate on the left panel to 'API Access'</p>
+
+<p>If you have not already, set up a new client ID and type the URL of your website you will be using
+the library on.</p>
+
+<img src="images/oAuth.gif" >
+
+<p> Finally, locate your 'Client ID' and 'API Key'</p>
+
+<img src="images/apiclientid.gif" >
+
+</div>
+
+
+<div>
+
+<a name="loadlibs"></a><h2>Loading External Libraries and Setting Up Authorization Button</h2>
+
+<p>Copy and paste the code below into the body tag of your HTML file.<p>
+
+<div style="background: #f8f8f8; overflow:auto;width:auto;color:black;background:#F5F5F5;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #408080; font-style: italic">&lt;!-- Add Google Analytics authorization button --&gt;</span>
+<span style="color: #008000; font-weight: bold">&lt;button</span> <span style="color: #7D9029">id=</span><span style="color: #BA2121">&quot;authorize-button&quot;</span> <span style="color: #7D9029">style=</span><span style="color: #BA2121">&quot;visibility: hidden&quot;</span><span style="color: #008000; font-weight: bold">&gt;</span>Authorize Analytics<span style="color: #008000; font-weight: bold">&lt;/button&gt;</span>
+
+<span style="color: #408080; font-style: italic">&lt;!-- Load all Google JS libraries --&gt;</span>
+<span style="color: #008000; font-weight: bold">&lt;script </span><span style="color: #7D9029">type=</span><span style="color: #BA2121">&quot;text/javascript&quot;</span> <span style="color: #7D9029">src=</span><span style="color: #BA2121">&quot;https://www.google.com/jsapi&quot;</span><span style="color: #008000; font-weight: bold">&gt;&lt;/script&gt;</span>
+<span style="color: #008000; font-weight: bold">&lt;script </span><span style="color: #7D9029">type=</span><span style="color: #BA2121">&quot;text/javascript&quot;</span> <span style="color: #7D9029">src=</span><span style="color: #BA2121">&quot;gadash-1.0.js&quot;</span><span style="color: #008000; font-weight: bold">&gt;&lt;/script&gt;</span>
+<span style="color: #008000; font-weight: bold">&lt;script </span><span style="color: #7D9029">src=</span><span style="color: #BA2121">&quot;https://apis.google.com/js/client.js?onload=gadashInit&quot;</span><span style="color: #008000; font-weight: bold">&gt;&lt;/script&gt;</span>
+</pre></div>
+
+<p>The code above loads the Google AJAX library, the GADash 1.0 library, and the Google Javascript Client library.
+Also an authorization button is created to allow Analytics to be authenticated.<p>
+
+
+
+<a name="config"></a><h2>Setting Your API Key and Client ID for GADash</h2>
+
+<p>To query your Google Analytics data, Google requires a verified API Key and your Client ID. Therefore, this
+    information must be supplied to the GADash library.</p>
+
+<p>Copy and paste the following code snippet into your HTML file replacing the 'XXXX' with your API Key
+and Client ID you setup in the first step of this document from the Google API Console.</p>
+
+<div style="background: #f8f8f8; overflow:auto;width:auto;color:black;background:#F5F5F5;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008000; font-weight: bold">&lt;script </span><span style="color: #7D9029">type=</span><span style="color: #BA2121">&quot;text/javascript&quot;</span><span style="color: #008000; font-weight: bold">&gt;</span>
+
+    <span style="color: #408080; font-style: italic">// Configure gadash library with your own API Key and ClientID.</span>
+    <span style="color: #408080; font-style: italic">// This can be obatained from your Google API Console.</span>
+    gadash.configKeys({
+        <span style="color: #BA2121">&#39;apiKey&#39;</span><span style="color: #666666">:</span> <span style="color: #BA2121">&#39;XXXXXXXXXXXXXXXXXXXXXX&#39;</span>,
+        <span style="color: #BA2121">&#39;clientId&#39;</span><span style="color: #666666">:</span><span style="color: #BA2121">&#39;XXXXXXXXXXXXXXXXXXXXXX&#39;</span>
+    });
+<span style="color: #008000; font-weight: bold">&lt;/script&gt;</span>
+</pre></div>
+
+
+
+<a name="chart"></a><h2>Creating a Chart</h2>
+
+<p>First, we must define a div element for the chart to be displayed in. Give the div an id attribute
+that you will pass as a parameter to the Chart object. </p>
+
+<div style="background: #f8f8f8; overflow:auto;width:auto;color:black;background:#F5F5F5;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008000; font-weight: bold">&lt;div</span> <span style="color: #7D9029">id=</span><span style="color: #BA2121">&#39;chart1&#39;</span><span style="color: #008000; font-weight: bold">&gt;&lt;/div&gt;</span>
+</pre></div>
+
+
+<p>Second, we create a chart object using the following parameters and set its divContainer
+parameter to the div id you created above.</p>
+
+<p>Here is an example of a simple chart configuration that creates a line chart for the number of visitors
+in the past 30 days. Note: Replace XXXX in 'id' with your Google Analytics profile id.</p>
+
+<div style="background: #f8f8f8; overflow:auto;width:auto;color:black;background:#F5F5F5;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008000; font-weight: bold">&lt;script </span><span style="color: #7D9029">type=</span><span style="color: #BA2121">&quot;text/javascript&quot;</span><span style="color: #008000; font-weight: bold">&gt;</span>
+
+    <span style="color: #008000; font-weight: bold">var</span> chart1 <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">new</span> gadash.Chart({
+        <span style="color: #BA2121">&#39;type&#39;</span><span style="color: #666666">:</span> <span style="color: #BA2121">&#39;LineChart&#39;</span>,
+        <span style="color: #BA2121">&#39;divContainer&#39;</span><span style="color: #666666">:</span> <span style="color: #BA2121">&#39;chart1&#39;</span>,
+        <span style="color: #BA2121">&#39;last-n-days&#39;</span><span style="color: #666666">:30</span>,
+        <span style="color: #BA2121">&#39;query&#39;</span><span style="color: #666666">:</span> {
+            <span style="color: #BA2121">&#39;ids&#39;</span><span style="color: #666666">:</span><span style="color: #BA2121">&#39;ga:XXXX&#39;</span>,
+            <span style="color: #BA2121">&#39;metrics&#39;</span><span style="color: #666666">:</span> <span style="color: #BA2121">&#39;ga:visitors&#39;</span>,
+            <span style="color: #BA2121">&#39;dimensions&#39;</span><span style="color: #666666">:</span> <span style="color: #BA2121">&#39;ga:date&#39;</span>
+        }
+    }).render();
+
+<span style="color: #008000; font-weight: bold">&lt;/script&gt;</span>
+</pre></div>
+
+
+<p><br>Use the reference below to see what parameters are valid for a chart configuration.</p>
+
+
+<a name="reference"></a><h3>Chart Configuration Reference</h3>
+
+<table>
+    <thead>
+        <td><strong>Name</strong></td>
+        <td><strong>Type</strong></td>
+        <td><strong>Description</strong></td>
+    </thead>
+    <tr>
+        <td><code>type</code><br><br> <strong>Required</strong></td>
+        <td>String</td>
+        <td>
+            <p>Specifies which type of chart instance to use from the Google Visualization's library. To use a
+            chart, specify the object name of the chart from the visualization library. You can use any
+            available chart the visualization library offers but these are the valid
+            charts that have been tested:</p>
+
+            <p>
+            <code>'LineChart'</code><br>
+            <code>'BarChart'</code><br>
+            <code>'ColumnChart'</code><br>
+            <code>'PieChart'</code><br>
+            <code>'Table'</code>
+            </p>
+
+             <p>Note: If <code>type</code> is not declared, then the default chart is a  <code>'Table'</code>.</p>
+
+            <p>
+            <strong>Example:</strong>
+            The following will declare a Line Chart from the Google Visualization library.</p>
+
+            <div style="background: #f8f8f8; overflow:auto;width:auto;color:black;background:#F5F5F5;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">&#39;type&#39;:&#39;LineChart&#39;
+            </pre></div>
+
+
+
+        </td>
+    </tr>
+
+    <tr>
+        <td><code>divContainer</code><br><br> <strong>Required</strong></td>
+        <td>String</td>
+        <td>Specifies which div element to display the chart in. <br> <br>
+
+            <strong>Example:</strong>
+            This example will draw the chart to <code>&lt;div id='chart1'&gt;&lt;/div&gt;</code><br><br>
+            <div style="background: #f8f8f8; overflow:auto;width:auto;color:black;background:#F5F5F5;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">&#39;divContainer&#39;:&#39;chart1&#39;
+            </pre></div>
+
+        </td>
+    </tr>
+
+    <tr>
+        <td><code>query</code><br><br><strong>Required</strong></td>
+        <td>Object</td>
+        <td>
+            <p>Object that specifies a query object for Google Analytics Core Reporting a API. The query object must contain
+                following parameters: <code>ids, start-date, end-date, metrics</code>. The following parameters
+                are optional: <code>dimensions, filters, max-results, segment, sort, start-index, fields</code></p>
+            
+            <p><strong>Note:</strong> If <code>last-n-days</code> is declared in the config, then
+                <code>start-date</code> and <code>end-date</code> are not required parameters of the query option because
+                they will be already declared. </p>
+            
+            <p><code>start-date</code> and <code>end-date</code> must be a String of in the form yyyy-MM-dd</p>
+
+            <p>For a list of all valid <code>metrics</code> and <code>dimensions</code>, see the
+                <a href="http://code.google.com/apis/analytics/docs/gdata/dimsmets/dimsmets.html">Dimensions & Metrics Reference</a></p>
+
+            <p>For more detailed information about the <code>query</code> object and supported parameters, see
+                <a href="http://code.google.com/apis/analytics/docs/gdata/v3/reference.html#q_summary" >Core Reporting API Reference Guide</a></p>
+
+
+            <p><strong>Example:</strong> The following query will return the number of visitors for each day
+                from January 1, 2000 to January 31, 2000</p>
+            <div style="background: #f8f8f8; overflow:auto;width:auto;color:black;background:#F5F5F5;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">query<span style="color: #666666">:</span> {
+   <span style="color: #BA2121">&#39;ids&#39;</span><span style="color: #666666">:</span><span style="color: #BA2121">&#39;ga:1234&#39;</span>,
+   <span style="color: #BA2121">&#39;metrics&#39;</span><span style="color: #666666">:</span> <span style="color: #BA2121">&#39;ga:visitors&#39;</span>,
+   <span style="color: #BA2121">&#39;start-date&#39;</span><span style="color: #666666">:</span><span style="color: #BA2121">&#39;2000-01-01&#39;</span>,
+   <span style="color: #BA2121">&#39;end-date&#39;</span><span style="color: #666666">:</span><span style="color: #BA2121">&#39;2000-01-30&#39;</span>,
+   <span style="color: #BA2121">&#39;dimensions&#39;</span><span style="color: #666666">:</span> <span style="color: #BA2121">&#39;ga:date&#39;</span>
+ }
+</pre></div>
+
+
+
+
+
+
+        </td>
+    </tr>
+
+
+    <tr>
+        <td><code>chartOptions</code><br><br> Optional</td>
+        <td>Object</td>
+        <td>
+            <p>Object that specifies chart options configuation parameters. This object must be configured based on the 
+                <code>type</code> parameter that was passed. </p>
+            
+            <p><code>'type':'LineChart'</code> refer to
+                <a href="http://code.google.com/apis/chart/interactive/docs/gallery/linechart.html#Configuration_Options">Line Chart Configurations</a><br>
+
+                <code>'type':'BarChart'</code> refer to
+                <a href="http://code.google.com/apis/chart/interactive/docs/gallery/barchart.html#Configuration_Options">Bar Chart Configurations</a><br>
+
+                <code>'type':'ColumnChart'</code> refer to
+                <a href="http://code.google.com/apis/chart/interactive/docs/gallery/columnchart.html#Configuration_Options">Column Chart Configurations</a><br>
+
+                <code>'type':'PieChart'</code> refer to
+                <a href="http://code.google.com/apis/chart/interactive/docs/gallery/piechart.html#Configuration_Options">Pie Chart Configurations</a><br>
+
+                <code>'type':'Table'</code> refer to
+                <a href="http://code.google.com/apis/chart/interactive/docs/gallery/table.html#Configuration_Options">Table Configurations</a><br></p>
+
+     
+
+
+            
+            <p><strong>Example:</strong> This example is to configure the chart options of a  <code>LineChart</code>.
+            Sets the div's height of the line chart to 600, the title of the chart to "Visits in January 2011", the x-axis
+            label to "Date", and the y-axis label to "Visits"</p>
+            <div style="background: #f8f8f8; overflow:auto;width:auto;color:black;background:#F5F5F5;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">chartOptions<span style="color: #666666">:</span> {
+    height<span style="color: #666666">:600</span>,
+    title<span style="color: #666666">:</span> <span style="color: #BA2121">&#39;Visits in January 2011&#39;</span>,
+    hAxis<span style="color: #666666">:</span> {title<span style="color: #666666">:</span><span style="color: #BA2121">&#39;Date&#39;</span>},
+    vAxis<span style="color: #666666">:</span> {title<span style="color: #666666">:</span><span style="color: #BA2121">&#39;Visits&#39;</span>},
+    curveType<span style="color: #666666">:</span> <span style="color: #BA2121">&#39;function&#39;</span>
+}
+</pre></div>
+
+
+
+        </td>
+    </tr>
+
+    <tr>
+        <td><code>last-n-days</code><br><br> Optional</td>
+        <td>Number</td>
+        <td><p>Sets the <code>query</code> parameters <code>start-date</code> and <code>end-date</code>
+            to query data from the last n days passed to it. </p>
+
+
+           <p><strong>Note:</strong> This parameter will always override the <code>start-date</code> and
+               <code>end-date</code> of the <code>query</code> object.</p>
+            
+           <p><strong>Example:</strong> This will query Google Analytics data from the last 30 days.</p>
+            <div style="background: #f8f8f8; overflow:auto;width:auto;color:black;background:#F5F5F5;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #BA2121">&#39;last-n-days&#39;</span><span style="color: #666666">:</span> <span style="color: #666666">30</span>
+</pre></div>
+
+
+
+        </td>
+    </tr>
+
+
+    <tr>
+        <td><code>onSuccess</code><br><br> Optional</td>
+        <td>Function</td>
+        <td>Allows a user to define their own callback function after the query is executed. It gives users the ability to use
+            their own chart APIs and flexibility with Analytics data. This function takes in a Google Analytics
+            JSON response object. For information about the response object, see
+            <a href="http://code.google.com/apis/explorer/#_s=analytics&_v=v3&_m=data.ga.get">Google Analytics API Console</a>
+
+            <p><strong>Example:</strong> This is an example of a custom callback that gets total vistors from the GA response
+            then continues to render the chart and use the default callback.</p>
+            <div style="background: #f8f8f8; overflow:auto;width:auto;color:black;background:#F5F5F5;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #BA2121">&#39;onSuccess&#39;</span><span style="color: #666666">:</span> <span style="color: #008000; font-weight: bold">function</span>(resp) {
+  <span style="color: #008000; font-weight: bold">var</span> totalVisits <span style="color: #666666">=</span> resp.totalsForAllResults[<span style="color: #BA2121">&#39;ga:visits&#39;</span>];
+
+  <span style="color: #408080; font-style: italic">// Update UI.</span>
+  <span style="color: #008000">document</span>.getElementById(<span style="color: #BA2121">&#39;totalVisits&#39;</span>).innerHTML <span style="color: #666666">=</span> totalVisits;
+
+  <span style="color: #408080; font-style: italic">// Continue rendering the chart as normal.</span>
+  chart1.defaultOnSuccess(resp);
+}
+</pre></div>
+
+
+
+
+        </td>
+    </tr>
+
+    <tr>
+        <td><code>onError</code><br><br> Optional</td>
+        <td>Function</td>
+        <td><p>Allows user to handle errors by creating their own error function. The function takes in
+        a String with the message.</p>
+            
+            <p><strong>Example:</strong> Will print the error message in an alert window instead of a div on the
+            HTML page.</p>
+
+            <div style="background: #f8f8f8; overflow:auto;width:auto;color:black;background:#F5F5F5;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #BA2121">&#39;onError&#39;</span><span style="color: #666666">:</span> <span style="color: #008000; font-weight: bold">function</span>(message) {
+  alert(message);
+}
+</pre></div>
+
+
+
+        </td>
+    </tr>
+
+</table>
+
+<h2> Sample Code </h2>
+
+<div style="background: #f8f8f8; overflow:auto;width:auto;color:black;background:#F5F5F5;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008000; font-weight: bold">&lt;html&gt;</span>
+<span style="color: #008000; font-weight: bold">&lt;head&gt;</span>
+    <span style="color: #008000; font-weight: bold">&lt;title&gt;</span>GA Dash Demo<span style="color: #008000; font-weight: bold">&lt;/title&gt;</span>
+<span style="color: #008000; font-weight: bold">&lt;/head&gt;</span>
+<span style="color: #008000; font-weight: bold">&lt;body&gt;</span>
+
+<span style="color: #408080; font-style: italic">&lt;!-- Add Google Analytics authorization button --&gt;</span>
+<span style="color: #008000; font-weight: bold">&lt;button</span> <span style="color: #7D9029">id=</span><span style="color: #BA2121">&quot;authorize-button&quot;</span> <span style="color: #7D9029">style=</span><span style="color: #BA2121">&quot;visibility: hidden&quot;</span><span style="color: #008000; font-weight: bold">&gt;</span>Authorize Analytics<span style="color: #008000; font-weight: bold">&lt;/button&gt;</span>
+
+<span style="color: #408080; font-style: italic">&lt;!-- Load all Google JS libraries --&gt;</span>
+<span style="color: #008000; font-weight: bold">&lt;script </span><span style="color: #7D9029">type=</span><span style="color: #BA2121">&quot;text/javascript&quot;</span> <span style="color: #7D9029">src=</span><span style="color: #BA2121">&quot;https://www.google.com/jsapi&quot;</span><span style="color: #008000; font-weight: bold">&gt;&lt;/script&gt;</span>
+<span style="color: #008000; font-weight: bold">&lt;script </span><span style="color: #7D9029">type=</span><span style="color: #BA2121">&quot;text/javascript&quot;</span> <span style="color: #7D9029">src=</span><span style="color: #BA2121">&quot;gadash-1.0.js&quot;</span><span style="color: #008000; font-weight: bold">&gt;&lt;/script&gt;</span>
+<span style="color: #008000; font-weight: bold">&lt;script </span><span style="color: #7D9029">src=</span><span style="color: #BA2121">&quot;https://apis.google.com/js/client.js?onload=gadashInit&quot;</span><span style="color: #008000; font-weight: bold">&gt;&lt;/script&gt;</span>
+
+<span style="color: #008000; font-weight: bold">&lt;script </span><span style="color: #7D9029">type=</span><span style="color: #BA2121">&quot;text/javascript&quot;</span><span style="color: #008000; font-weight: bold">&gt;</span>
+
+    <span style="color: #408080; font-style: italic">// Configure gadash library with your own API Key and ClientID.</span>
+    <span style="color: #408080; font-style: italic">// This can be obatained from your Google API Console.</span>
+    gadash.configKeys({
+        <span style="color: #BA2121">&#39;apiKey&#39;</span><span style="color: #666666">:</span> <span style="color: #BA2121">&#39;XXXXXXXXXXXXXXXXXXXXXX&#39;</span>,
+        <span style="color: #BA2121">&#39;clientId&#39;</span><span style="color: #666666">:</span><span style="color: #BA2121">&#39;XXXXXXXXXXXXXXXXXXXXXX&#39;</span>
+    });
+
+    <span style="color: #408080; font-style: italic">// Example of Line Chart that plots visitors for the last 30 days.</span>
+    <span style="color: #408080; font-style: italic">// Replace ga:XXXX in query.ids to your profile ID in Google Analytics.</span>
+    <span style="color: #008000; font-weight: bold">var</span> chart1 <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">new</span> gadash.Chart({
+        <span style="color: #BA2121">&#39;type&#39;</span><span style="color: #666666">:</span> <span style="color: #BA2121">&#39;LineChart&#39;</span>,
+        <span style="color: #BA2121">&#39;divContainer&#39;</span><span style="color: #666666">:</span> <span style="color: #BA2121">&#39;line-chart-example&#39;</span>,
+        <span style="color: #BA2121">&#39;last-n-days&#39;</span><span style="color: #666666">:30</span>,
+        <span style="color: #BA2121">&#39;query&#39;</span><span style="color: #666666">:</span> {
+            <span style="color: #BA2121">&#39;ids&#39;</span><span style="color: #666666">:</span><span style="color: #BA2121">&#39;ga:XXXX&#39;</span>,
+            <span style="color: #BA2121">&#39;metrics&#39;</span><span style="color: #666666">:</span> <span style="color: #BA2121">&#39;ga:visitors&#39;</span>,
+            <span style="color: #BA2121">&#39;dimensions&#39;</span><span style="color: #666666">:</span> <span style="color: #BA2121">&#39;ga:date&#39;</span>
+        },
+        <span style="color: #BA2121">&#39;chartOptions&#39;</span><span style="color: #666666">:</span> {
+            height<span style="color: #666666">:600</span>,
+            title<span style="color: #666666">:</span> <span style="color: #BA2121">&#39;Visits in January 2011&#39;</span>,
+            hAxis<span style="color: #666666">:</span> {title<span style="color: #666666">:</span><span style="color: #BA2121">&#39;Date&#39;</span>},
+            vAxis<span style="color: #666666">:</span> {title<span style="color: #666666">:</span><span style="color: #BA2121">&#39;Visits&#39;</span>},
+            curveType<span style="color: #666666">:</span> <span style="color: #BA2121">&#39;function&#39;</span>
+        }
+    }).render();
+
+<span style="color: #008000; font-weight: bold">&lt;/script&gt;</span>
+
+<span style="color: #408080; font-style: italic">&lt;!-- Div element where the Line Chart will be placed --&gt;</span>
+<span style="color: #008000; font-weight: bold">&lt;div</span> <span style="color: #7D9029">id=</span><span style="color: #BA2121">&#39;line-chart-example&#39;</span><span style="color: #008000; font-weight: bold">&gt;&lt;/div&gt;</span>
+
+<span style="color: #008000; font-weight: bold">&lt;/body&gt;</span>
+<span style="color: #008000; font-weight: bold">&lt;/html&gt;</span>
+</pre></div>
+
+
+
+</body>
+</html>
