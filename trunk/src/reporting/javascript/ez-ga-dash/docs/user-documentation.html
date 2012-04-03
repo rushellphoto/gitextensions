@@ -428,7 +428,8 @@ chartOptions: {
     <td>
       Allows a user to define their own callback function after the query is executed. It gives users the ability to use their own chart APIs and flexibility with Analytics data. This function takes in a Google Analytics JSON response object. For information about the response object, see <a href="http://code.google.com/apis/explorer/#_s=analytics&amp;_v=v3&amp;_m=data.ga.get">Google Analytics API Console</a>
       <p>
-        <strong>Example:</strong> This is an example of a custom callback that gets total vistors from the GA response then continues to render the chart and use the default callback.
+        <strong>Example:</strong> This is an example of a custom callback that gets total
+        visitors from the GA response then continues to render the chart and use the default callback.
       </p>
       <pre class="prettyprint">
 &lt;-- HTML snippet to update --&gt;
@@ -444,7 +445,9 @@ chartOptions: {
   document.getElementById('totalVisits').innerHTML = totalVisits;
 
   // Continue rendering the chart as normal.
-  chart1.defaultOnSuccess(response);
+  // Note: this points to the instance of the Chart object from which the
+  //       onSuccess function is called.
+  this.defaultOnSuccess(response);
 }
 </pre>
       </div>

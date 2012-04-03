@@ -303,20 +303,22 @@ gadash.Chart.prototype.render = function() {
 /**
  * Callback function that is called after a GA query is executed.
  * First, the function checks to see if there are any errors on the
- * response. Then checks to see if a onSuccess function was declared
- * in the config. If present, call onSuccess, else call the
- * default callback passing in the repsonse object in both cases.
- * @param {Object} resp - Google Analytics API JSON response.
+ * response. Then check to see if a onSuccess function was declared
+ * in the config. If present, call onSuccess by first binding it to
+ * this (ie this chart object instance). If not defined, just use
+ * the default callback. The entire JSON response from the API
+ * is passed to either defined or default callback.
+ * @param {Object} response - Google Analytics API JSON response.
  */
-gadash.Chart.prototype.callback = function(resp) {
-  if (resp.error) {
-    this.defaultOnError(resp.error.code + ' ' + resp.error.message);
+gadash.Chart.prototype.callback = function(response) {
+  if (response.error) {
+    this.defaultOnError(response.error.code + ' ' + response.error.message);
   } else {
 
     if (this.config.onSuccess) {
-      this.config.onSuccess(resp);
+      this.bindMethod(this, this.config.onSuccess)(response);
     } else {
-      this.defaultOnSuccess(resp);
+      this.defaultOnSuccess(response);
     }
   }
 };
