@@ -48,16 +48,27 @@
       text-align: right;
       padding-right: 10px;
     }
+    #toc > li {
+      list-style-type: none;
+    }
+    li {
+      padding: 3px 0;
+    }
+    pre.prettyprint {
+      width: 650px;
+      padding: 10px !important;
+    }
   </style>
   <link href="prettify.css" type="text/css" rel="stylesheet" />
   <script type="text/javascript" src="prettify.js"></script>
 </head>
 <body onload="prettyPrint()">
 <h1>Google Analytics Easy Dashboard Javascript Library</h1>
-<p>This document describes how to use the <a href="../gadash-1.0.js">ga-ez-dash library</a> version 1.0.</p>
+<p>This document describes how to use the
+   <a href="../gadash-1.0.js">ga-ez-dash library</a> version 1.0.</p>
 
 <h2>Table of Contents</h2>
-<ul>
+<ul id="toc">
   <li><a href="#overview">Overview</a></li>
   <li><a href="#started">Getting Started</a>
     <ol>
@@ -66,7 +77,9 @@
       <li><a href="#configure">Configure</a></li>
     </ol>
   </li>
+  <li><a href="#method">Chart Method Reference</a></li>
   <li><a href="#reference">Configuration Parameter Reference</a></li>
+  <li><br><a href="../demos/set-demo.html">Cool demo!</a></li>
 </ul>
 
 <h2 id="overview">Overview</h2>
@@ -167,7 +180,8 @@
 &lt;body&gt;
 
   &lt;!-- Add Google Analytics authorization button --&gt;
-  &lt;button id="authorize-button" style="visibility: hidden"&gt;Authorize Analytics&lt;/button&gt;
+  &lt;button id="authorize-button" style="visibility: hidden"&gt;
+        Authorize Analytics&lt;/button&gt;
 
   &lt;!-- Div element where the Line Chart will be placed --&gt;
   &lt;div id='line-chart-example'&gt;&lt;/div&gt;
@@ -180,7 +194,8 @@
     // Configure these parameters before you start.
     var API_KEY = 'Enter Your API Key Here';
     var CLIENT_ID = 'Enter Your Client ID Here';
-    var TABLE_ID = 'Enter your Table ID here, format ga:xxx where xxx is the profile ID';
+    var TABLE_ID = 'Enter your Table ID here';
+    // Format of table ID is ga:xxx where xxx is the profile ID.
 
     gadash.configKeys({
       'apiKey': API_KEY,
@@ -245,8 +260,90 @@
 
 <p>Great Success!</p>
 
-<h2 id="reference">Configuration Parameter Reference</h2>
+<h2 id="method">Chart Method Reference</h2>
+<p>Chart objects support 3 methods.</p>
 
+
+<dl>
+<dt><h3><code>new gadash.Chart(opt_config)</code></h3></dt>
+<dd>
+<p>To create a new chart you use the constructor:</p>
+<pre class="prettyprint">
+var myChart = new gadash.Chart();
+</pre>
+<p>The constructor also accepts an optional configuration object as a parameter:</p>
+<pre class="prettyprint">
+var myChart = new gadash.Chart({
+  'query': {
+    'ids': 'ga:1234',
+    'start-date': '2012-01-01',
+    'end-date': '2012-01-15',
+    'metrics': 'ga:vists'
+  }
+});
+</pre>
+<p>A deep copy of the object passed into the constructor is made, then
+   stored in the chart object. This allows the original object to be modified
+   without effecting the values stored in the chart.</p>
+</dd>
+</dl>
+
+<dl>
+<dt><h3><code>set(config)</code></h3></dt>
+<dd>
+<p>Sets a configuration object in the chart:</p>
+<pre class="prettyprint">
+myChart.set({
+  'divContainer': 'chart1'
+});
+</pre>
+<p>This method performs a deep copy of the object being passed into the method. So in the following example:</p>
+<pre class="prettyprint">
+var config = {'divContainer': 'chart1'};
+myChart.set(config);
+config.divContainer = 'chart2';
+</pre>
+<p>The value of <code>divContainer</code> in <code>myChart</code> will be <code>chart1</code>.</p>
+<p>The <code>set</code> method also extends keys that contain objects as values. So in the example:</p>
+<pre class="prettyprint">
+var dimensions = {
+  'query': {
+    'dimensions': 'ga:source,ga:medium'
+  }
+};
+
+var metrics = {
+  'query': {
+    'metrics': 'ga:visits,ga:pageviews'
+  }
+};
+
+myChart.set(dimensions).set(metrics);
+</pre>
+<p>The first <code>set</code> stores the query in the chart. Because <code>query</code> is
+   an object, the second set adds the metrics to the query object.
+   (as opposed to overwriting the original query object.)</p>
+
+</dd>
+</dl>
+
+<dl>
+<dt><h3><code>render()</code></h3></dt>
+<dd>
+<p>Renders this chart by executing the API query, handing the response, converting the
+   GA API response into a Google Visualization data table, getting a new visualization
+   object, and finally drawing the visualization on the page.</p>
+<pre class="prettyprint">
+chart1.render();
+</pre>
+</dd>
+</dl>
+
+<p class="note"><strong>Note</strong>: Each of these methods return an instance to the chart object.
+   This allows you to chain methods. For example: <code>myChart.set(conig1).set(config2).render()</code></p>
+
+
+<h2 id="reference">Configuration Parameter Reference</h2>
 <p>You can now continue configuring this chart to query for different data,
    or to display the data in other Google Visualizations. All configurations are done
    through the configuration object you pass into the Chart constructor. Use the
@@ -275,7 +372,11 @@
     </td>
     <td>
       <p>
-        Specifies which type of chart instance to use from the Google Visualization's library. To use a chart, specify the object name of the chart from the visualization library. You can use any available chart the visualization library offers but these are the valid charts that have been tested:
+        Specifies which type of chart instance to use from the Google
+        Visualization's library. To use a chart, specify the object name
+        of the chart from the visualization library. You can use any
+        available chart the visualization library offers but these are
+        the valid charts that have been tested:
       </p>
       <p>
         <code>'LineChart'</code><br>
@@ -426,7 +527,12 @@ chartOptions: {
       Function
     </td>
     <td>
-      Allows a user to define their own callback function after the query is executed. It gives users the ability to use their own chart APIs and flexibility with Analytics data. This function takes in a Google Analytics JSON response object. For information about the response object, see <a href="http://code.google.com/apis/explorer/#_s=analytics&amp;_v=v3&amp;_m=data.ga.get">Google Analytics API Console</a>
+      Allows a user to define their own callback function after the query is
+      executed. It gives users the ability to use their own chart APIs and
+      flexibility with Analytics data. This function takes in a Google Analytics
+      JSON response object. For information about the response object, see
+      <a href="http://code.google.com/apis/explorer/#_s=analytics&amp;_v=v3&amp;_m=data.ga.get">
+        Google Analytics API Console</a>
       <p>
         <strong>Example:</strong> This is an example of a custom callback that gets total
         visitors from the GA response then continues to render the chart and use the default callback.
