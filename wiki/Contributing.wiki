@@ -11,7 +11,7 @@ We use Rietveld for code reviews prior to committing. See http://code.google.com
 
 Checkout using subversion (_need details_).
 
-To submit, upload it to codereview.appspot.com using the [http://codereview.appspot.com/static/upload.py upload.py] script and add `nrhodes@google.com`, `fmela@google.com`, or `jjc@google.com` to the list of the reviewers, for example
+To submit, upload it to codereview.appspot.com using the [http://codereview.appspot.com/static/upload.py upload.py] script and add a list of reviewers. For example
 {{{
 upload.py -r nrhodes@google.com --cc=analytics-api-samples-discuss@googlegroups.com --send_mail  
 }}}
@@ -19,6 +19,9 @@ Make sure you're *subscribed* to [https://groups.google.com/forum/#forum/analyti
 {{{
 upload.py -i XXXXXX --send_mail
 }}}
+
+= Once uploaded =
+The reviewers will add comments to your code and publish them as feedback. Go to the [http://codereview.appspot.com/ Code Review Tool], find your issue, and reply to each comment. Once complete you will be given an LGTM and given access to commit your code.
 
 
 =Legal stuff=
