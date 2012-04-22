@@ -494,6 +494,43 @@ public class EasyTracker {
     });
   }
 
+  /**
+   * Add a custom var to be tracked with the next event, pageview etc.
+   *
+   * @param index the slot number for the custom var (integer between 1 to 5)
+   * @param name the name of the custom var
+   * @param value the value for the custom var
+   * @param scope the scope of the custom var (1-visitor,2-session,3-page)
+   */
+  public void setCustomVar(final int index, final String name, final String value, final int scope) {
+    queueToTrackerThreadIfEnabled(new Runnable() {
+
+      @Override
+      public void run() {
+        getGoogleAnalyticsTracker().setCustomVar(index, name, value, scope); 
+      }
+      
+    });
+  }
+
+  /**
+   * Add a custom var to be tracked with the next event, pageview etc.
+   *
+   * @param index the slot number for the custom var (integer between 1 to 5)
+   * @param name the name of the custom var
+   * @param value the value for the custom var
+   */
+  public void setCustomVar(final int index, final String name, final String value) {
+    queueToTrackerThreadIfEnabled(new Runnable() {
+
+      @Override
+      public void run() {
+        getGoogleAnalyticsTracker().setCustomVar(index, name, value); 
+      }
+      
+    });
+  }
+
   // This section defines variables and methods used to manage the Thread for
   // GoogleAnalyticsTracker calls.
 
