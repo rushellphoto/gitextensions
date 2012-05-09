@@ -104,6 +104,7 @@ gadash.checkAuth = function() {
  */
 gadash.handleAuthResult = function(authResult) {
   if (authResult) {
+    gapi.client.setApiVersions({'analytics': 'v3'});
     gapi.client.load('analytics', 'v3', gadash.handleAuthorized);
   } else {
     gadash.handleUnAuthorized();
