@@ -48,8 +48,18 @@
       text-align: right;
       padding-right: 10px;
     }
-    #toc > li {
+    .row {
+      overflow: hidden;
+      zoom: 1;
+    }
+    .toc {
+      width: 275px;
+    }
+    .toc > li {
       list-style-type: none;
+    }
+    .left {
+      float: left;
     }
     li {
       padding: 3px 0;
@@ -68,19 +78,24 @@
    <a href="../gadash-1.0.js">ga-ez-dash library</a> version 1.0.</p>
 
 <h2>Table of Contents</h2>
-<ul id="toc">
-  <li><a href="#overview">Overview</a></li>
-  <li><a href="#started">Getting Started</a>
-    <ol>
-      <li><a href="#register">Register</a></li>
-      <li><a href="#copypaste">Copy &amp; Paste</a></li>
-      <li><a href="#configure">Configure</a></li>
-    </ol>
-  </li>
-  <li><a href="#method">Chart Method Reference</a></li>
-  <li><a href="#reference">Configuration Parameter Reference</a></li>
-  <li><br><a href="../demos/set-demo.html">Cool demo!</a></li>
-</ul>
+<div class="row">
+  <ul class="toc left">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#started">Getting Started</a>
+      <ol>
+        <li><a href="#register">Register</a></li>
+        <li><a href="#copypaste">Copy &amp; Paste</a></li>
+        <li><a href="#configure">Configure</a></li>
+      </ol>
+    </li>
+    <li><br><a href="../demos/set-demo.html">Cool demo!</a></li>
+  </ul>
+  <ul class="toc left">
+    <li><a href="#method">Chart Method Reference</a></li>
+    <li><a href="#reference">Configuration Parameter Reference</a></li>
+    <li><a href="#changelog">Changelog</a></li>
+  </ul>
+</div>
 
 <h2 id="overview">Overview</h2>
 <p>This library is designed to create an easy way to build a custom
@@ -583,6 +598,22 @@ chartOptions: {
     </td>
   </tr>
 </table>
+
+
+<h2 id="changelog">Changelog</h2>
+<h3>May 14, 2012</h3>
+<ul>
+  <li>Fixed loading bug</li>
+  <li>Fixed bug preventing currencies from being reported</li>
+  <li>Fixed bug preventing bar and column charts</li>
+</ul>
+
+
+<h3>April 10, 2012</h3>
+<ul>
+  <li>Library uploaded</li>
+</ul>
+
 
 <br><br><br><br>
 <p id="gu">G-Unit</p>
