@@ -40,6 +40,8 @@ var gadash = gadash || {};
 // Namespace for util object. Contains lots of library utilities.
 gadash.util = gadash.util || {};
 
+// Boolean that checks to see if gapi client is loaded.
+gadash.isLoaded = false;
 
 /**
  * Refers to the Google Analytics API scope that the user will need
@@ -122,6 +124,7 @@ gadash.handleAuthorized = function() {
   var authorizeButton = document.getElementById('authorize-button');
   authorizeButton.style.visibility = 'hidden';
 
+  gadash.isLoaded = true;
   gadash.executeCommandQueue();
 };
 
@@ -194,7 +197,7 @@ gadash.Chart = function(opt_config) {
 /**
  * Extends the values in the chart's config object with the keys in
  * the config parameters. If a key in config already exists in the chart,
- * and the value is not an object, the new value overwrites the old. 
+ * and the value is not an object, the new value overwrites the old.
  * @param {Object} config The config object to set inside this object.
  * @return {Object} The current instance of the Chart object. Useful
  *     for chaining methods.
@@ -217,7 +220,7 @@ gadash.Chart.prototype.set = function(config) {
 gadash.Chart.prototype.render = function() {
 
   // If the client library has loaded.
-  if (gapi.client.analytics) {
+  if (gadash.isLoaded) {
     this.renderFunction();
   } else {
     var renderFunction = gadash.util.bindMethod(this, this.renderFunction);
@@ -314,7 +317,7 @@ gadash.Chart.prototype.defaultOnError = function(message) {
  * @param {Object} resp - A Google Analytics API JSON response.
  */
 gadash.Chart.prototype.defaultOnSuccess = function(resp) {
-  var dataTable = gadash.util.getDataTable(resp);
+  var dataTable = gadash.util.getDataTable(resp, this.config.type);
   var chart = gadash.util.getChart(this.config.divContainer, this.config.type);
   gadash.util.draw(chart, dataTable, this.config.chartOptions);
 };
@@ -381,6 +384,8 @@ gadash.util.getDataTable = function(resp, opt_chartType) {
         arrayMetrics.push(gadash.util.stringToDate(resp.rows[i][j]));
       } else if (dataType == 'INTEGER') {
         arrayMetrics.push(parseInt(resp.rows[i][j]));
+      } else if (dataType == 'CURRENCY' ) {
+        arrayMetrics.push(parseFloat(resp.rows[i][j]));
       } else if (dataType == 'PERCENT' || dataType == 'TIME' ||
           dataType == 'FLOAT') {
         arrayMetrics.push(Math.round((resp.rows[i][j]) * 100) / 100);
@@ -389,6 +394,20 @@ gadash.util.getDataTable = function(resp, opt_chartType) {
       }
     }
     data.addRow(arrayMetrics);
+  }
+
+  /*
+   * Iterates through each column in the data table and formats
+   * any column that has a CURRENCY datatype to two decimal places 
+   * and a '$' before the amount.
+   */
+  for (var i = 0; i < numOfColumns; i++) {
+    var dataType = resp.columnHeaders[i].dataType;
+    if (dataType == 'CURRENCY') {
+      var formatter = new google.visualization.NumberFormat(
+          {fractionDigits: 2});
+      formatter.format(data, i);
+    }
   }
 
   return data;
@@ -571,7 +590,7 @@ gadash.util.getType = function(value) {
     '[object Array]': 'array',
     '[object Date]': 'date',
     '[object RegExp]': 'regex',
-    '[object Object]' : 'object',
+    '[object Object]' : 'object'
   })[classStringName];
 }
 
